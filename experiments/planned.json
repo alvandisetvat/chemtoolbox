@@ -1,0 +1,123 @@
+[
+  {
+    "id": "em-waves-remote",
+    "title": "پرتوهای فروسرخ کنترل تلویزیون",
+    "grade": 10,
+    "book": "شیمی ۱",
+    "chapter": 1,
+    "activity": "کاوش کنید",
+    "category": "concept",
+    "difficulty": 2,
+    "assignee": ""
+  },
+  {
+    "id": "oxides-ph",
+    "title": "رفتار شیمیایی اکسیدهای فلزی و نافلزی",
+    "grade": 10,
+    "book": "شیمی ۱",
+    "chapter": 2,
+    "activity": "کاوش کنید",
+    "category": "solution",
+    "difficulty": 1,
+    "assignee": ""
+  },
+  {
+    "id": "ions-in-water",
+    "title": "وجود برخی یون‌ها در آب",
+    "grade": 10,
+    "book": "شیمی ۱",
+    "chapter": 3,
+    "activity": "کاوش کنید (۴ آزمایش)",
+    "category": "solution",
+    "difficulty": 2,
+    "assignee": ""
+  },
+  {
+    "id": "gas-solubility-temp",
+    "title": "اثر دما بر انحلال‌پذیری گازها در آب",
+    "grade": 10,
+    "book": "شیمی ۱",
+    "chapter": 3,
+    "activity": "کاوش کنید",
+    "category": "apparatus",
+    "difficulty": 3,
+    "assignee": ""
+  },
+  {
+    "id": "gas-solubility-salt",
+    "title": "اثر نمک بر انحلال‌پذیری گازها (کاوش طراحی‌محور)",
+    "grade": 10,
+    "book": "شیمی ۱",
+    "chapter": 3,
+    "activity": "کاوش کنید",
+    "category": "apparatus",
+    "difficulty": 3,
+    "assignee": ""
+  },
+  {
+    "id": "metal-reactivity",
+    "title": "کدام فلز واکنش‌پذیرتر است؟",
+    "grade": 11,
+    "book": "شیمی ۲",
+    "chapter": 1,
+    "activity": "کاوش کنید (۲)",
+    "category": "solution",
+    "difficulty": 1,
+    "assignee": ""
+  },
+  {
+    "id": "food-energy",
+    "title": "اثر نوع و مقدار ماده بر انرژی آن",
+    "grade": 11,
+    "book": "شیمی ۲",
+    "chapter": 2,
+    "activity": "کاوش کنید",
+    "category": "apparatus",
+    "difficulty": 3,
+    "assignee": ""
+  },
+  {
+    "id": "reaction-rate",
+    "title": "عوامل مؤثر بر سرعت واکنش",
+    "grade": 11,
+    "book": "شیمی ۲",
+    "chapter": 2,
+    "activity": "کاوش کنید (۳ آزمایش)",
+    "category": "apparatus",
+    "difficulty": 3,
+    "assignee": ""
+  },
+  {
+    "id": "soap-hard-water",
+    "title": "پاک‌کنندگی صابون در آب‌های گوناگون",
+    "grade": 12,
+    "book": "شیمی ۳",
+    "chapter": 1,
+    "activity": "کاوش کنید",
+    "category": "solution",
+    "difficulty": 1,
+    "assignee": ""
+  },
+  {
+    "id": "equilibrium-two-vessels",
+    "title": "فرایند برگشت‌پذیر تا رسیدن به تعادل",
+    "grade": 12,
+    "book": "شیمی ۳",
+    "chapter": 1,
+    "activity": "کاوش کنید",
+    "category": "apparatus",
+    "difficulty": 2,
+    "assignee": ""
+  },
+  {
+    "id": "graphene-conductivity",
+    "title": "رسانایی الکتریکی گرافن",
+    "grade": 12,
+    "book": "شیمی ۳",
+    "chapter": 3,
+    "activity": "کاوش کنید",
+    "category": "apparatus",
+    "difficulty": 2,
+    "assignee": ""
+  }
+]

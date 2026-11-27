@@ -1,0 +1,18 @@
+{
+  "name": "chemistry-toolbox-hamedan",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "جعبه ابزار شیمی — شبیه‌سازی سه‌بعدی آزمایش‌های کتاب‌های شیمی (استان همدان)",
+  "scripts": {
+    "vendor": "node tools/fetch-vendor.mjs",
+    "build": "node tools/build-index.mjs",
+    "dev": "node tools/build-index.mjs && node tools/serve.mjs",
+    "lint": "node tools/check-names.mjs",
+    "smoke": "node tools/smoke.mjs"
+  },
+  "devDependencies": {
+    "playwright": "^1.50.0",
+    "typescript": "^5.6.0"
+  }
+}

@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>صفحهٔ آزمایشی | جعبه ابزار شیمی</title>
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="vendor/fonts/fonts.css">
+<style>
+:root{--bg:#0e1621;--bg2:#142132;--line:rgba(255,255,255,.13);--ac:#2dd4bf;--ac2:#fbbf24;--tx:#e8eef5;--mut:#9fb0c3;--ok:#4ade80;--bad:#f87171}
+*{box-sizing:border-box}
+html,body{height:100%;margin:0}
+body{background:var(--bg);color:var(--tx);font-family:'Vazirmatn',Tahoma,sans-serif;font-size:13.5px;line-height:1.8;display:flex;flex-direction:column}
+.bar{display:flex;gap:8px;align-items:center;flex-wrap:wrap;padding:8px 12px;border-bottom:1px solid var(--line);background:#101c2b}
+.bar h1{margin:0;font-size:15px;font-weight:800;margin-inline-end:8px}
+input,select,button{font:inherit;color:var(--tx);background:var(--bg2);border:1px solid var(--line);border-radius:9px;padding:5px 10px}
+input{width:210px;direction:ltr;text-align:left}
+button{cursor:pointer}button:hover{border-color:var(--ac)}
+button.pri{background:var(--ac);color:#04302b;border-color:var(--ac);font-weight:800}
+main{flex:1;display:flex;min-height:0}
+iframe{flex:1;border:0;min-width:0;background:#0e1621}
+aside{width:370px;max-width:44vw;overflow:auto;border-inline-start:1px solid var(--line);padding:12px;display:flex;flex-direction:column;gap:12px}
+aside h2{margin:0 0 4px;font-size:13.5px;color:var(--ac2)}
+ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:3px}
+li.ok::before{content:'✓ ';color:var(--ok)}li.bad::before{content:'✗ ';color:var(--bad)}li.warn::before{content:'! ';color:var(--ac2)}
+li.bad{color:#fecaca}
+.chk label{display:flex;gap:8px;align-items:flex-start;cursor:pointer;padding:2px 0}
+.chk input{width:auto;margin-top:7px}
+code{direction:ltr;display:inline-block;background:rgba(255,255,255,.08);border-radius:5px;padding:0 6px}
+.dev{color:var(--mut)}
+.frame.mobile iframe{flex:none;width:390px;height:780px;margin:auto;border:1px solid var(--line);border-radius:14px}
+@media (max-width:860px){main{flex-direction:column}aside{width:auto;max-width:none;max-height:45vh;border-inline-start:0;border-top:1px solid var(--line)}iframe{min-height:55vh}}
+</style>
+</head>
+<body>
+<div class="bar">
+  <h1>صفحهٔ آزمایشی</h1>
+  <select id="sel" title="آزمایش‌های موجود"></select>
+  <input id="id" placeholder="شناسه، مثل soap-hard-water" spellcheck="false" aria-label="شناسهٔ آزمایش">
+  <button id="load" class="pri">بارگذاری</button>
+  <button id="test">آزمون خودکار</button>
+  <button id="mob">نمای موبایل</button>
+  <span class="dev">پوشهٔ <code>experiments/&lt;شناسه&gt;/</code> را بسازید و اینجا امتحان کنید.</span>
+</div>
+<main id="main">
+  <iframe id="fr" title="شبیه‌سازی" src="about:blank"></iframe>
+  <aside>
+    <section><h2>شناسنامه (meta.json)</h2><ul id="metaList"></ul></section>
+    <section><h2>بارگذاری و خطاها</h2><ul id="logList"><li class="warn">هنوز آزمایشی بارگذاری نشده.</li></ul></section>
+    <section><h2>آزمون خودکار</h2><ul id="repList"><li class="warn">اجرا نشده. دکمهٔ «آزمون خودکار» را بزنید.</li></ul></section>
+    <section class="chk"><h2>چک‌لیست یک‌دستی و بازبینی</h2><div id="chk"></div></section>
+  </aside>
+</main>
+<script type="module">
+const $=s=>document.querySelector(s);
+const CHECK=[
+ 'متن مراحل با کتاب (واژه‌ها و ترتیب) هماهنگ است.',
+ 'شمارهٔ صفحه و نوع کاوش در شناسنامه درست است.',
+ 'رنگ همهٔ مواد از core/chemistry.js آمده؛ رنگ جدید خارج از فرهنگ مواد نیست.',
+ 'رنگ‌ها و تغییرهای مشاهده‌شده را دبیر دیگری از نظر علمی تأیید کرده است.',
+ 'معادلهٔ شیمیایی موازنه است و حالت فیزیکی مواد (s، l، g، aq) نوشته شده.',
+ 'پاسخ پرسش‌های کتاب (مشاهده، نتیجه) در مرحلهٔ پاسخ آمده است.',
+ '«اجرای خودکار» تا آخر بی‌خطا اجرا می‌شود (آزمون خودکار سبز).',
+ 'روی موبایل (نمای ۳۹۰ پیکسل) پنل، دکمه‌ها و پاسخ‌ها کامل دیده می‌شوند.',
+ 'نکتهٔ ایمنی کتاب (عینک، دستکش، فاصله) در جای خود یادآوری شده است.',
+ 'هیچ تصویر یا متن کپی‌شده از کتاب در آزمایش نیست.',
+ 'نام تهیه‌کننده در شناسنامه درست است.',
+ 'هیچ آدرس اینترنتی (CDN) در کد نیست؛ آزمایش آفلاین کار می‌کند.'
+];
+const CATS=['solution','apparatus','concept'];
+const fr=$('#fr'),li=(c,t)=>`<li class="${c}">${t}</li>`;
+let id='';
+
+const idx=await fetch('experiments/index.json').then(r=>r.json()).catch(()=>({experiments:[],planned:[]}));
+$('#sel').innerHTML='<option value="">— انتخاب —</option>'+idx.experiments.map(e=>`<option value="${e.id}">${e.title}</option>`).join('')+'<option value="_template">نمونهٔ قالب (_template)</option>';
+$('#sel').onchange=e=>{if(e.target.value){$('#id').value=e.target.value;load();}};
+$('#load').onclick=()=>load();
+$('#id').onkeydown=e=>{if(e.key==='Enter')load();};
+$('#mob').onclick=()=>$('#main').classList.toggle('mobile');
+$('#test').onclick=()=>{if(!id)return;$('#repList').innerHTML=li('warn','در حال اجرا… (ممکن است تا یک دقیقه طول بکشد)');fr.contentWindow.postMessage({type:'lab-command',cmd:'autotest'},location.origin);};
+
+addEventListener('message',e=>{
+  if(e.origin!==location.origin||!e.data)return;
+  const d=e.data;
+  if(d.type==='lab-error')$('#logList').insertAdjacentHTML('beforeend',li('bad',d.message));
+  if(d.type==='lab-ready')$('#logList').insertAdjacentHTML('beforeend',li('ok',`بارگذاری شد (${d.tabs} تب)`));
+  if(d.type==='lab-report'){
+    const r=d.report;
+    $('#repList').innerHTML=(r.tabs||[]).map(t=>li(t.failed||!t.steps?'bad':'ok',`${t.title}: ${t.steps} مرحله، ${t.failed} خطا، ${(t.ms/1000).toFixed(1)} ثانیه`)).join('')
+      +(r.errors||[]).map(x=>li('bad',x)).join('')+li(r.ok?'ok':'bad',r.ok?'آزمون موفق بود':'آزمون ناموفق بود');
+  }
+});
+
+function checkMeta(m){
+  const out=[];const need=(k,ok,msg)=>out.push(li(ok?'ok':'bad',ok?k:msg));
+  for(const k of ['title','question','book','activity','author','version'])need(k,typeof m[k]==='string'&&m[k].trim(),`فیلد «${k}» لازم است`);
+  need('grade',[10,11,12].includes(m.grade),'grade باید ۱۰، ۱۱ یا ۱۲ باشد');
+  need('chapter',Number.isInteger(m.chapter)&&m.chapter>=1&&m.chapter<=4,'chapter باید ۱ تا ۴ باشد');
+  need('page',Number.isInteger(m.page)&&m.page>0,'page (صفحهٔ کتاب) لازم است');
+  need('category',CATS.includes(m.category),'category: solution | apparatus | concept');
+  need('difficulty',[1,2,3].includes(m.difficulty),'difficulty باید ۱ تا ۳ باشد');
+  need('materials',Array.isArray(m.materials)&&m.materials.length>0,'materials لازم است');
+  need('id',m.id===id,`id باید «${id}» (نام پوشه) باشد`);
+  return out.join('');
+}
+function renderChecklist(){
+  let saved={};try{saved=JSON.parse(localStorage.getItem('chk:'+id)||'{}');}catch(e){}
+  $('#chk').innerHTML=CHECK.map((t,i)=>`<label><input type="checkbox" data-i="${i}" ${saved[i]?'checked':''}> <span>${t}</span></label>`).join('');
+  $('#chk').onchange=e=>{saved[e.target.dataset.i]=e.target.checked;try{localStorage.setItem('chk:'+id,JSON.stringify(saved));}catch(err){}};
+}
+async function load(){
+  id=$('#id').value.trim();if(!id)return;
+  $('#logList').innerHTML='';$('#repList').innerHTML=li('warn','اجرا نشده.');
+  try{
+    const m=await fetch(`experiments/${id}/meta.json`,{cache:'no-store'}).then(r=>{if(!r.ok)throw new Error('meta.json پیدا نشد');return r.json();});
+    $('#metaList').innerHTML=checkMeta(m);
+  }catch(e){$('#metaList').innerHTML=li('bad',e.message);}
+  renderChecklist();
+  fr.src=`player.html?e=${encodeURIComponent(id)}&t=${Date.now()}`;
+  fr.onload=()=>setTimeout(()=>fr.contentWindow.postMessage({type:'lab-command',cmd:'ping'},location.origin),400);
+}
+const q=new URLSearchParams(location.search).get('e');if(q){$('#id').value=q;load();}
+</script>
+</body>
+</html>

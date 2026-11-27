@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>شبیه‌سازی | جعبه ابزار شیمی</title>
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="vendor/fonts/fonts.css">
+<link rel="stylesheet" href="core/lab.css">
+<script type="importmap">
+{"imports":{"three":"./vendor/three/three.module.js","three/addons/":"./vendor/three/addons/"}}
+</script>
+</head>
+<body>
+<div id="stage"></div>
+<div id="tabs"></div>
+<div id="hud"></div>
+<div id="camBar"></div>
+<aside id="panel">
+  <div class="hd"><div class="k" id="kicker"></div><h1 id="title"></h1><div class="by" id="author"></div></div>
+  <div class="mats" id="mats"></div>
+  <div class="bar"><i id="bar"></i></div>
+  <ol id="steps"></ol>
+  <div class="ctl"><button id="run" class="pri">▶ اجرای مرحله</button><button id="auto">⏩ اجرای خودکار</button><button id="reset" title="شروع دوباره">↺</button></div>
+  <div class="opt"><label><input type="checkbox" id="autocam" checked> دوربین خودکار</label><label>سرعت <input type="range" id="speed" min=".5" max="2" step=".25" value="1"></label></div>
+  <div id="answers"></div>
+</aside>
+<div id="loading"><div class="sp"></div><div>در حال آماده‌سازی آزمایشگاه سه‌بعدی…</div></div>
+<script type="module" src="core/boot.js"></script>
+</body>
+</html>

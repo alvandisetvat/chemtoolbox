@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0e1621">
+<title>جعبه ابزار شیمی | شبیه‌سازی آزمایش‌های کتاب‌های درسی</title>
+<meta name="description" content="شبیه‌سازی سه‌بعدی آزمایش‌های کتاب‌های شیمی دهم، یازدهم و دوازدهم — تهیه‌شده توسط دبیران استان همدان">
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="vendor/fonts/fonts.css">
+<link rel="stylesheet" href="assets/portal.css">
+</head>
+<body>
+<header class="top">
+  <div class="wrap">
+    <div class="brand"><span class="logo">⚗</span><div><h1>جعبه ابزار شیمی</h1><p>شبیه‌سازی سه‌بعدی آزمایش‌های کتاب‌های درسی · استان همدان</p></div></div>
+    <div class="stat" id="stat"></div>
+  </div>
+</header>
+<main class="wrap">
+  <section class="filters" aria-label="فیلتر">
+    <input id="q" type="search" placeholder="جستجو در آزمایش‌ها…" aria-label="جستجو">
+    <div class="chips" id="gradeChips" role="group" aria-label="پایه"></div>
+    <div class="chips" id="catChips" role="group" aria-label="نوع آزمایش"></div>
+    <label class="chk"><input type="checkbox" id="onlyReady"> فقط آزمایش‌های آماده</label>
+  </section>
+  <section id="grid" class="grid" aria-live="polite"></section>
+  <p id="empty" class="empty" hidden>موردی پیدا نشد.</p>
+</main>
+<footer class="wrap foot">
+  <p>آزمایش‌ها بر پایهٔ فعالیت‌های «کاوش کنید» کتاب‌های شیمی ۱، ۲ و ۳ طراحی شده‌اند و پس از اولین بازدید بدون اینترنت هم کار می‌کنند.</p>
+</footer>
+
+<div id="viewer" hidden>
+  <div class="vbar">
+    <button id="vback" aria-label="بازگشت">→ بازگشت</button>
+    <div class="vtitle"><b id="vtitle"></b><small id="vby"></small></div>
+    <button id="vfs" aria-label="تمام‌صفحه">⛶</button>
+    <a id="vopen" target="_blank" rel="noopener" aria-label="باز کردن در تب جدید">↗</a>
+  </div>
+  <iframe id="vframe" title="شبیه‌سازی" allow="fullscreen" referrerpolicy="same-origin"></iframe>
+</div>
+<script type="module" src="assets/portal.js"></script>
+</body>
+</html>
