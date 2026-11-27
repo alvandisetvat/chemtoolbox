@@ -168,7 +168,7 @@ await compareWithChart(s, chart, 12.4);                      // نوار کنا�
 
 ## ۱۱. قطعه‌های جدید هسته (ظرف‌ها و ابزارها)
 
-همه از `../../core/api.js` import می‌شوند. نمونهٔ کامل و اجرایی: `experiments/_parts-demo/experiment.js`.
+همه از `../../core/api.js` import می‌شوند. نمونه‌های کامل و اجرایی: `experiments/food-energy/experiment.js` (ترازو، دماسنج، چراغ)، `experiments/gas-solubility-temp/experiment.js` (استوانه، قیف، تشت) و `experiments/graphene-conductivity/experiment.js` (مدار LED و سیم).
 همهٔ ظرف‌ها (بشر، استوانه) همان رابط لوله را دارند، پس `pourWater`، `scoopInto`، `pourFromDropper` و … روی آن‌ها کار می‌کنند.
 
 **استوانهٔ مدرج**

@@ -47,13 +47,8 @@ export function moveTo(o,p,dur=1,rot=null,arc=0,ease=easeMJ){
   },ease);
   /* گذاشتن روی میز یا کفه: جسم پایین می‌آید و یک جهش بسیار کوچک و میرا می‌کند (ضربه و بازگشت) */
   if(p0.y-p.y>.25&&p.y<1&&!(o.userData&&o.userData.noSettle)){
-    const yb=p.y,A=Math.min(.045,Math.max(.012,(p0.y-yb)*.012));
-    /* ضربهٔ تماس: یک overshoot بسیار کوچک، سپس میرایی؛ فقط برای جسمی که واقعاً روی میز می‌نشیند. */
-    return t.then(()=>tween(.42,k=>{
-      const damp=Math.exp(-6.2*k),osc=Math.sin(k*15.5);
-      o.position.y=yb+A*damp*osc;
-      if(k>.92)o.position.y=yb;
-    },lin));
+    const yb=p.y,A=.028;
+    return t.then(()=>tween(.34,k=>{o.position.y=k>=1?yb:yb+A*Math.exp(-5.5*k)*Math.abs(Math.sin(k*17));},lin));
   }
   return t;
 }

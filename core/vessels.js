@@ -1,7 +1,7 @@
 /* ظرف‌های جدید: بشر، میلهٔ همزن شیشه‌ای، حباب (آب گازدار) */
 import {THREE,TAU,V3,C,clamp,lerp,rnd,v3,lin,world,tween,sleep,moveTo,addUpdater} from './kernel.js';
 import {SPRITE,paperTex,canvasTex} from './textures.js';
-import {Slosh,glassFres,glassFresThin,glassPhysical,glassRefl,liquidMat,mesh,lathe,addBlob} from './materials.js';
+import {Slosh,glassFres,glassFresThin,glassRefl,liquidMat,mesh,lathe,addBlob} from './materials.js';
 import {Cloud,WATER,glassStreaks} from './glassware.js';
 
 /* ---------- ابعاد بشر (واحد صحنه) ---------- */
@@ -43,7 +43,7 @@ export class Beaker{
     this.group=new THREE.Group();this.group.position.set(x,0,z);this.rest=this.group.position.clone();
     this.level=0;this.alpha=0;this.color=WATER.clone();
     this.precipColor=new C(0xf4f4f0);this.agit=0;this.agitTarget=0;this.dirty=true;
-    this.group.add(mesh(BEAKER_SHELL,glassPhysical,10),mesh(BEAKER_SHELL,glassRefl,11),glassStreaks(BR+.004,.25,BH-.5));
+    this.group.add(mesh(BEAKER_SHELL,glassFresThin,10),mesh(BEAKER_SHELL,glassRefl,11),glassStreaks(BR+.004,.25,BH-.5));
     this.liqMat=liquidMat();
     this.slosh=new Slosh(.1);this.liq=mesh(beakerLiquidGeo(.05),this.liqMat,5);this.liq.visible=false;this.group.add(this.liq);
     this.solid=new Cloud(this,420,{size:.14,sinkMin:.8,sinkMax:1.3,diff:.03,pileMax:.12,pileN:380,opacity:1});
@@ -87,7 +87,7 @@ export class Beaker{
     if(this.liq.visible){
       const c=this.dispColor();
       this.liqMat.color.copy(c);this.liqMat.emissive.copy(c).multiplyScalar(.3);
-      this.liqMat.opacity=Math.max(.72,Math.min(.96,this.dispOpacity()+.28));
+      this.liqMat.opacity=this.dispOpacity();
     }
   }
 }
@@ -102,7 +102,7 @@ export const ROD_LEN=2.7, ROD_REST=v3(-2.3,.035,1.9);
 export function makeStirRod(){
   const g=new THREE.Group();
   const geo=new THREE.CylinderGeometry(.03,.03,ROD_LEN,12);
-  const body=mesh(geo,glassPhysical,10);body.position.y=ROD_LEN/2;
+  const body=mesh(geo,glassFres,10);body.position.y=ROD_LEN/2;
   const body2=mesh(geo,glassRefl,11);body2.position.y=ROD_LEN/2;
   const solidCore=new THREE.Mesh(geo,new THREE.MeshStandardMaterial({color:0xcfe3e6,transparent:true,opacity:.35,roughness:.1}));
   solidCore.position.y=ROD_LEN/2;

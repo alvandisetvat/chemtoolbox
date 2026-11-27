@@ -20,20 +20,17 @@ function labEnvironment(){
 }
 export function initWorld(container,meta){
   /* ================= رندرر و صحنه ================= */
-  const renderer=new THREE.WebGLRenderer({antialias:true,powerPreference:'high-performance',stencil:false,depth:true});
-  renderer.useLegacyLights=false;
+  const renderer=new THREE.WebGLRenderer({antialias:true,powerPreference:'high-performance'});
   renderer.setPixelRatio(Math.min(devicePixelRatio,2));
   renderer.shadowMap.enabled=true;
   renderer.shadowMap.type=THREE.PCFSoftShadowMap;
   renderer.toneMapping=THREE.ACESFilmicToneMapping;
-  renderer.toneMappingExposure=1.05;
-  renderer.physicallyCorrectLights=true;
+  renderer.toneMappingExposure=1.0;
   renderer.outputColorSpace=THREE.SRGBColorSpace;
   container.appendChild(renderer.domElement);
 
   const scene=new THREE.Scene();
-  scene.background=new C(0x71818d);
-  scene.fog=new THREE.FogExp2(0x71818d,.0065);
+  scene.background=new C(0x75899a);
   const pmrem=new THREE.PMREMGenerator(renderer);
   try{scene.environment=pmrem.fromScene(labEnvironment(),0.03).texture;}   // محیط بازتاب شبیه آزمایشگاه: پنجره و چراغ‌های سقفی
   catch(e){scene.environment=pmrem.fromScene(new RoomEnvironment(),0.04).texture;}
@@ -45,16 +42,13 @@ export function initWorld(container,meta){
   controls.maxPolarAngle=Math.PI/2-.03;
   controls.zoomSpeed=.8;
 
-  const sun=new THREE.DirectionalLight(0xfff4e6,2.0);
+  const sun=new THREE.DirectionalLight(0xfff4e6,2.3);
   sun.position.set(6,11,8);sun.castShadow=true;
   sun.shadow.mapSize.set(2048,2048);
   Object.assign(sun.shadow.camera,{left:-9,right:9,top:9,bottom:-9,near:1,far:35});
   sun.shadow.bias=-.0004;sun.shadow.normalBias=.02;
   scene.add(sun,sun.target);
-  scene.add(new THREE.HemisphereLight(0xf5f8ff,0x59656e,.42));
-  const fill=new THREE.DirectionalLight(0xd9ecff,.35);
-  fill.position.set(-8,5,-4);
-  scene.add(fill);
+  scene.add(new THREE.HemisphereLight(0xffffff,0x8a97a5,.55));
 
   Object.assign(world,{renderer,scene,camera,controls,sun});
   const dyn=new THREE.Group();scene.add(dyn);world.dyn=dyn;

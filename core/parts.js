@@ -1,7 +1,7 @@
 /* قطعه‌های شیشه‌ای و ظرف‌ها: استوانهٔ مدرج، قیف + کاغذ صافی + پایه، قوطی فیلم */
 import {THREE,TAU,V3,C,clamp,lerp,rnd,v3,lin,easeOut,world,tween,sleep,moveTo,addUpdater} from './kernel.js';
 import {canvasTex,paperTex} from './textures.js';
-import {Slosh,plastic,glassFres,glassFresThin,glassPhysical,glassRefl,liquidMat,mesh,lathe,addBlob} from './materials.js';
+import {Slosh,plastic,glassFres,glassFresThin,glassRefl,liquidMat,mesh,lathe,addBlob} from './materials.js';
 import {Cloud,WATER,glassStreaks} from './glassware.js';
 import {stream,setStream} from './fx.js';
 import {S} from './state.js';
@@ -35,7 +35,7 @@ export class Cylinder{
     this.group=new THREE.Group();this.group.position.set(x,0,z);this.rest=this.group.position.clone();
     this.level=0;this.alpha=0;this.color=WATER.clone();
     this.precipColor=new C(0xf4f4f0);this.agit=0;this.agitTarget=0;this.dirty=true;
-    this.group.add(mesh(CYL_SHELL,glassPhysical,10),mesh(CYL_SHELL,glassRefl,11),glassStreaks(CYL_R+.004,.5,CYL_H-.7));
+    this.group.add(mesh(CYL_SHELL,glassFresThin,10),mesh(CYL_SHELL,glassRefl,11),glassStreaks(CYL_R+.004,.5,CYL_H-.7));
     this.liqMat=liquidMat();
     this.slosh=new Slosh(.1);this.liq=mesh(cylLiquidGeo(.05),this.liqMat,5);this.liq.visible=false;this.group.add(this.liq);
     this.solid=new Cloud(this,260,{size:.1,sinkMin:.8,sinkMax:1.3,diff:.03,pileMax:.1,pileN:240,opacity:1});
@@ -95,7 +95,7 @@ export const funnelWallR=y=>fr(y);
 export function makeFunnel(x=0,z=0,{y0=2.1}={}){
   const g=new THREE.Group();g.position.set(x,0,z);
   const fg=new THREE.Group();fg.position.y=y0;g.add(fg);
-  fg.add(mesh(FUNNEL_SHELL,glassPhysical,10),mesh(FUNNEL_SHELL,glassRefl,11));
+  fg.add(mesh(FUNNEL_SHELL,glassFres,10),mesh(FUNNEL_SHELL,glassRefl,11));
   /* کاغذ صافی: مخروط باز */
   const paperMat=new THREE.MeshStandardMaterial({color:0xf3efe4,roughness:1,side:THREE.DoubleSide});
   const paper=new THREE.Mesh(lathe([[.0001,F_STEM+.03],[F_R-.03,F_TOP+.04]],40),paperMat);paper.renderOrder=3;fg.add(paper);

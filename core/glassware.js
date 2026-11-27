@@ -1,6 +1,6 @@
 import {THREE,$,TAU,V3,V2,C,clamp,lerp,rnd,v3,easeIO,easeOut,lin,fa,FONT,world,tweens,tween,sleep,moveTo} from './kernel.js';
 import {NOISE,SPRITE,paperTex,canvasTex,PLASTIC_BUMP} from './textures.js';
-import {Slosh,glassFres,glassPhysical,glassRefl,liquidMat,mesh,lathe,bumpy,addBlob} from './materials.js';
+import {Slosh,glassFres,glassRefl,liquidMat,mesh,lathe,bumpy,addBlob} from './materials.js';
 /* ================= ثابت‌های هندسی ================= */
 export const TR=.2,TH=3.2,TW=.024,TI=TR-TW,RL=TI-.006,CY=TR;
 export const SLOT_X=[-1.2,0,1.2], RACK_Y=.12;
@@ -147,7 +147,7 @@ export class Tube{
     this.rest=this.group.position.clone();
     this.level=0;this.alpha=0;this.color=WATER.clone();
     this.precipColor=new C(0x4f8f6b);this.agit=0;this.agitTarget=0;this.dirty=true;
-    this.group.add(mesh(TUBE_GEO,glassPhysical,10),mesh(TUBE_GEO,glassRefl,11),glassStreaks(TR+.004,.5,TH-.9));
+    this.group.add(mesh(TUBE_GEO,glassFres,10),mesh(TUBE_GEO,glassRefl,11),glassStreaks(TR+.004,.5,TH-.9));
     this.liqMat=liquidMat();
     this.slosh=new Slosh(.1);this.liq=mesh(liquidGeo(.05),this.liqMat,5);this.liq.visible=false;this.group.add(this.liq);
     this.solid=new Cloud(this,320,{size:.13,sinkMin:.8,sinkMax:1.3,diff:.03,pileMax:.14,pileN:300,opacity:1});
@@ -199,7 +199,7 @@ export class Tube{
 export function makeJar(formula,pname,hex,kind){
   const g=new THREE.Group();const R=.62,H=1.1;
   const shell=lathe([[0,0],[R-.06,0],[R,.07],[R,H],[R-.05,H],[R-.05,.15],[0,.15]],44);
-  g.add(mesh(shell,glassPhysical,10),mesh(shell,glassRefl,11));
+  g.add(mesh(shell,glassFres,10),mesh(shell,glassRefl,11));
   const pm=new THREE.MeshStandardMaterial({color:hex,roughness:.85,bumpMap:NOISE,bumpScale:2});
   const body=new THREE.Mesh(new THREE.CylinderGeometry(R-.07,R-.07,.55,32),pm);body.position.y=.425;body.castShadow=true;
   const cap=new THREE.Mesh(bumpy(new THREE.SphereGeometry(1,28,12,0,TAU,0,Math.PI/2),.16),pm);
@@ -226,7 +226,7 @@ export function makeJar(formula,pname,hex,kind){
 export function makeBottle(formula,pname){
   const g=new THREE.Group();
   const shell=lathe([[0,0],[.5,0],[.56,.08],[.56,1.15],[.5,1.35],[.24,1.55],[.22,1.95],[.28,2.0],[.28,2.05],[.2,2.05],[.2,1.95],[.2,1.55],[.45,1.32],[.5,1.15],[.5,.14],[0,.14]],44);
-  g.add(mesh(shell,glassPhysical,10),mesh(shell,glassRefl,11));
+  g.add(mesh(shell,glassFres,10),mesh(shell,glassRefl,11));
   const lm=liquidMat();lm.opacity=.3;
   const liq=mesh(new THREE.CylinderGeometry(.49,.49,.98,32),lm,5);liq.position.y=.63;g.add(liq);
   const lab=new THREE.Mesh(new THREE.CylinderGeometry(.575,.575,.7,32,1,true,-.85,1.7),
@@ -258,7 +258,7 @@ export function makeDropper(){
   const op=[];for(let y=0;y<=1.6001;y+=.08)op.push([dropperR(y),y]);
   op.push([.075,1.6],[.075,1.7]);
   const glassG=lathe(op,28);
-  g.add(mesh(glassG,glassPhysical,10),mesh(glassG,glassRefl,11));
+  g.add(mesh(glassG,glassFres,10),mesh(glassG,glassRefl,11));
   const bulbG=lathe([[.07,0],[.1,.12],[.15,.38],[.17,.7],[.13,.98],[.06,1.15],[0,1.18]],28);
   const rubber=new THREE.MeshPhysicalMaterial({color:0x1b1b1e,roughness:.62,clearcoat:.25,clearcoatRoughness:.55,bumpMap:PLASTIC_BUMP,bumpScale:.3});
   const bulb=new THREE.Mesh(bulbG,rubber);bulb.position.y=1.62;bulb.castShadow=true;g.add(bulb);

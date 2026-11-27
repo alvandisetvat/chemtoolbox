@@ -1,7 +1,7 @@
 /* ابزارها: دماسنج، ترازو، چراغ بونزن + سه‌پایه، جوشش/بخار، مدار رسانایی (LED) */
 import {THREE,TAU,V3,C,clamp,lerp,rnd,v3,lin,easeOut,easeIO,world,tween,sleep,moveTo,addUpdater,FONT} from './kernel.js';
 import {canvasTex,SPRITE} from './textures.js';
-import {glassFres,glassPhysical,glassRefl,mesh,lathe,addBlob,plastic} from './materials.js';
+import {glassFres,glassRefl,mesh,lathe,addBlob,plastic} from './materials.js';
 import {BRUSHED_BUMP} from './textures.js';
 
 const UP=new V3(0,1,0);
@@ -18,7 +18,7 @@ export const TH_L=4.4,TH_MIN=-10,TH_MAX=110,TH_Y0=.5,TH_Y1=TH_L-.3;
 export function makeThermometer(x=-2.6,z=1.9,{T=25}={}){
   const g=new THREE.Group();
   const stem=lathe([[0,0],[.075,.02],[.085,.12],[.04,.22],[.04,TH_L-.05],[.045,TH_L],[0,TH_L]],14);
-  g.add(mesh(stem,glassPhysical,10),mesh(stem,glassRefl,11));
+  g.add(mesh(stem,glassFres,10),mesh(stem,glassRefl,11));
   /* پشتی مدرج */
   const tex=canvasTex(128,1024,(c,w,h)=>{
     c.fillStyle='#f4f1e6';c.fillRect(0,0,w,h);c.strokeStyle='#1d2630';c.fillStyle='#1d2630';c.textAlign='left';
@@ -33,7 +33,7 @@ export function makeThermometer(x=-2.6,z=1.9,{T=25}={}){
   back.position.set(0,.3+(TH_L-.35)/2,-.075);back.castShadow=true;g.add(back);
   const stemL=TH_L-.35;                                                    // بدنهٔ شیشه‌ای دماسنج
   const gs=new THREE.CylinderGeometry(.055,.055,stemL,14,1,true);
-  const gl1=mesh(gs,glassPhysical,10),gl2=mesh(gs,glassRefl,11);gl1.position.set(0,.3+stemL/2,.02);gl2.position.copy(gl1.position);g.add(gl1,gl2);
+  const gl1=mesh(gs,glassFres,10),gl2=mesh(gs,glassRefl,11);gl1.position.set(0,.3+stemL/2,.02);gl2.position.copy(gl1.position);g.add(gl1,gl2);
   const redMat=new THREE.MeshStandardMaterial({color:0xd62828,roughness:.3,emissive:0x5a0808});
   const bulb=new THREE.Mesh(new THREE.SphereGeometry(.07,16,12),redMat);bulb.position.y=.1;g.add(bulb);
   const col=new THREE.Mesh(new THREE.CylinderGeometry(.018,.018,1,8),redMat);g.add(col);

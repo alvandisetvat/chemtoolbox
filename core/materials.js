@@ -11,40 +11,13 @@ const mkFres=(a0,a1)=>new THREE.ShaderMaterial({
 });
 export const glassFres=mkFres(.10,.78);
 export const glassFresThin=mkFres(.05,.5);   // بشر و استوانه: جدارهٔ شفاف‌تر
-/* شیشهٔ فیزیکی: transmission واقعی، IOR و ضخامت به‌جای ترکیب شفافیت و additive blending.
-   این متریال عمداً کمی roughness دارد تا لبه و بازتاب محیط در نمای نزدیک خوانا بماند. */
-export const glassPhysical=new THREE.MeshPhysicalMaterial({
-  color:0xdbe9ee,
-  metalness:0,
-  roughness:.075,
-  transmission:1,
-  thickness:.024,
-  ior:1.46,
-  attenuationColor:0xbfd5dc,
-  attenuationDistance:8,
-  transparent:false,
-  side:THREE.DoubleSide,
-  envMapIntensity:1.35,
-  clearcoat:.08,
-  clearcoatRoughness:.12
-});
-/* لایهٔ بازتاب بسیار ضعیف برای شکستن یکنواختی شیشه؛ دیگر additive نیست تا نور را بسوزاند. */
-export const glassRefl=new THREE.MeshPhysicalMaterial({
-  color:0xffffff,roughness:.12,metalness:0,transparent:true,opacity:.055,
-  transmission:.15,thickness:.02,ior:1.46,side:THREE.DoubleSide,depthWrite:false,
-  envMapIntensity:1.1,clearcoat:.15,clearcoatRoughness:.1
+export const glassRefl=new THREE.MeshStandardMaterial({
+  color:0x000000,roughness:1,roughnessMap:GLASS_IMP,metalness:0,transparent:true,blending:THREE.AdditiveBlending,
+  side:THREE.DoubleSide,depthWrite:false,envMapIntensity:2.8
 });
 /* مایع: سطح آزاد می‌تواند با لختی کج شود (شیب سطح uTilt، فقط بالای مایع جابه‌جا می‌شود و دیواره‌ها را قطع نمی‌کند) */
 export function liquidMat(){
-  /* مایع از نظر نوری باید جسمی حجمی باشد، نه یک لایهٔ نیمه‌شفاف.
-     transmission + attenuation باعث می‌شود عمق و رنگ مایع در ضخامت‌های مختلف تغییر کند. */
-  const m=new THREE.MeshPhysicalMaterial({
-    color:0xdff3ff,roughness:.035,metalness:0,
-    transmission:.38,thickness:.32,ior:1.333,
-    attenuationColor:0xc9e8f2,attenuationDistance:5.5,
-    transparent:true,opacity:.9,depthWrite:false,side:THREE.DoubleSide,
-    envMapIntensity:.8,clearcoat:.08,clearcoatRoughness:.08
-  });
+  const m=new THREE.MeshStandardMaterial({color:0xdff3ff,transparent:true,opacity:.32,roughness:.05,depthWrite:false,side:THREE.DoubleSide,envMapIntensity:1.0});
   const u={uTilt:{value:new V2(0,0)},uLv:{value:1},uFl:{value:0}};
   m.userData.liq=u;
   m.onBeforeCompile=sh=>{

@@ -1,7 +1,7 @@
 /* جمع‌آوری گاز روی آب: تشت شفاف (با یخ و بخار)، استوانهٔ وارونه، قیف وارونه، پایه و گیره، حباب‌های گاز */
 import {THREE,TAU,V3,C,clamp,lerp,rnd,v3,lin,easeOut,easeIO,world,tween,sleep,moveTo,addUpdater} from './kernel.js';
 import {SPRITE} from './textures.js';
-import {plastic,glassFres,glassPhysical,glassRefl,liquidMat,mesh,lathe,addBlob} from './materials.js';
+import {plastic,glassFres,glassRefl,liquidMat,mesh,lathe,addBlob} from './materials.js';
 import {CYL_SHELL,cylGradTex,CYL_R,CYL_H,CYL_T,FUNNEL_SHELL,funnelWallR} from './parts.js';
 import {WATER} from './glassware.js';
 
@@ -62,7 +62,7 @@ export async function addIce(t,n=14,{avoid=[.2,2.4]}={}){
    gc.setGas(ml): حجم گاز جمع‌شده. خوانش حجم = نشانهٔ مدرج در سطح آب درون استوانه (از ته بسته شمرده می‌شود). */
 export function makeGasCylinder(x=0,z=0,{ml=100}={}){
   const g=new THREE.Group();g.position.set(x,0,z);
-  g.add(mesh(CYL_SHELL,glassPhysical,10),mesh(CYL_SHELL,glassRefl,11));
+  g.add(mesh(CYL_SHELL,glassFres,10),mesh(CYL_SHELL,glassRefl,11));
   const gm=new THREE.Mesh(new THREE.CylinderGeometry(CYL_R+.006,CYL_R+.006,CYL_TOP+.18-CYL_T,24,1,true,.7,.62),
     new THREE.MeshBasicMaterial({map:cylGradTex(ml),transparent:true,depthWrite:false,polygonOffset:true,polygonOffsetFactor:-3}));
   gm.position.y=(CYL_TOP+.18+CYL_T)/2;gm.renderOrder=12;g.add(gm);
@@ -117,7 +117,7 @@ export const FUN_SCALE=.4;
 export function makeCollectFunnel(x=0,z=0,{y=.1}={}){
   const g=new THREE.Group();g.scale.setScalar(FUN_SCALE);
   g.position.set(x,y+FUN_SCALE*2.3,z);g.rotation.x=Math.PI;
-  g.add(mesh(FUNNEL_SHELL,glassPhysical,10),mesh(FUNNEL_SHELL,glassRefl,11));
+  g.add(mesh(FUNNEL_SHELL,glassFres,10),mesh(FUNNEL_SHELL,glassRefl,11));
   world.dyn.add(g);
   const ly=1.55,lr=funnelWallR(ly)-.1;
   const tabMat=new THREE.MeshStandardMaterial({color:0xf0bf72,roughness:.8,side:THREE.DoubleSide});

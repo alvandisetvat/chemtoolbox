@@ -62,6 +62,11 @@ writeFileSync(join(EXP,'index.json'),JSON.stringify({version,experiments:ready,p
 const pre=[...files,'experiments/index.json','./'];
 writeFileSync(join(ROOT,'precache.json'),JSON.stringify({version,files:pre}));
 console.log(`آزمایش آماده: ${ready.length} | در انتظار: ${planned.length} | فایل‌های کش: ${pre.length} | نسخه: ${version}`);
-warns.forEach(w=>console.log(w));errors.forEach(e=>console.error(e));
-if(errors.length){console.error(`\n${errors.length} خطا پیدا شد.`);process.exit(1);}
+warns.forEach(w=>console.log(w));
+if(errors.length){
+  console.log(`\n===== ${errors.length} خطا پیدا شد =====`);
+  errors.forEach(e=>console.log(e));
+  console.log('\nبعد از رفع خطاها دوباره اجرا کنید.');
+  process.exit(1);
+}
 console.log('✓ همهٔ شناسنامه‌ها معتبرند');
